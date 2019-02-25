@@ -11,9 +11,15 @@ Data Structures - Project 1
 
 // prototypes
 std::ifstream openInputFile();
+std::list<int>::iterator find_gt(std::list<int>::iterator,
+								 std::list<int>::iterator, int);
+std::vector<std::list<int>> buildAdjList(std::ifstream &);
 
 int main()
 {
+	// Vector of integer lists called adjList for adjacency list
+	std::vector<std::list<int>> adjList;
+	// Initial file operations for opening and displaying
 	std::ifstream inputFile = openInputFile();
 	inputFile.close();
 	return 0;
@@ -27,7 +33,7 @@ std::ifstream openInputFile()
 	std::string inputtedFileName;
 	do
 	{
-		std::cout << "Enter a file name to read and represent as a graph (include "
+		std::cout << "Enter a graph filename to prcess (include "
 					 "extension): ";
 		getline(std::cin, inputtedFileName);
 		inputFile.open(inputtedFileName.c_str());
@@ -36,13 +42,48 @@ std::ifstream openInputFile()
 			std::cout << "ERROR: inputted file does not exist!\n";
 		}
 	} while (!inputFile.is_open());
+	std::cout << inputtedFileName << " successfully opened!\n";
 	return inputFile;
 }
 
-/*
-        std::string content;
-        while (getline(inputFile, content))
-        {
-                std::cout << content << std::endl;
-        }
-*/
+// PURPOSE: iterates through a list and returns an iterator to the first element
+// greater than x
+std::list<int>::iterator find_gt(std::list<int>::iterator start,
+								 std::list<int>::iterator stop, int x)
+{
+	for (start; start != stop; ++start)
+	{
+		if (*start > x)
+		{
+			return start;
+		}
+	}
+}
+
+std::vector<std::list<int>> buildAdjList(std::ifstream &inputFile)
+{
+	std::vector<std::list<int>> adjList;
+	char value;
+	int position = 0, convertedValue;
+	while (std::cin >> value)
+	{
+		// Restart loop to receive a nonblank value
+		if (value == ' ')
+		{
+			continue;
+		}
+		// Denotes the end of a line of integers in the file
+		else if (value == '\n')
+		{
+			++position;
+			continue;
+		}
+		else
+		{
+			convertedValue = value - '0';
+			adjList[position].push_back(convertedValue);
+		}
+	}
+
+	return adjList;
+}
