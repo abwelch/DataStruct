@@ -15,6 +15,9 @@ std::list<int>::iterator find_gt(std::list<int>::iterator,
 								 std::list<int>::iterator, int);
 void buildAdjList(std::ifstream &, std::vector<std::list<int>> &);
 void printAdjList(std::vector<std::list<int>> &);
+bool connComponent(const std::list<int> &, const std::list<int> &);
+bool merge2(std::list<int> &, std::list<int> &);
+bool validateListInputs(int &, int &, const std::vector<std::list<int>> &);
 
 int main()
 {
@@ -23,7 +26,43 @@ int main()
 	std::ifstream inputFile = openInputFile();
 	// Populate adjList with elements within inputFile
 	buildAdjList(inputFile, adjList);
-	printAdjList(adjList);
+	int listInputOne = 0, listInputTwo = 0;
+	do
+	{
+		printAdjList(adjList);
+		// Value of -1 was inputted
+		if (!validateListInputs(listInputOne, listInputTwo, adjList))
+		{
+			break;
+		}
+		// Determine if inputs correspond to lists with shared vertices
+		if (connComponent(adjList[listInputOne], adjList[listInputTwo]))
+		{
+			// Determine if merge of shared vertice lists was successful
+			if (merge2(adjList[listInputOne], adjList[listInputTwo]))
+			{
+				std::cout << "The lists are merged.\n";
+				// Find the empty list and remove from vector
+				for (int i = 0; i < adjList.size(); ++i)
+				{
+					if (adjList[i].empty())
+					{
+						adjList.erase(adjList.begin() + i);
+					}
+				}
+			}
+			else
+			{
+				std::cout << "ERROR: Merge unsuccessful!\n";
+			}
+		}
+		else
+		{
+			std::cout << "The inputted list ids do not share any vertices!\n";
+		}
+		std::cout << std::endl;
+	} while (adjList.size() != 1);
+	std::cout << "Program terminated.\n";
 	inputFile.close();
 	return 0;
 }
@@ -122,4 +161,84 @@ void printAdjList(std::vector<std::list<int>> &adjList)
 		}
 		std::cout << std::endl;
 	}
+}
+
+// if there is a common element in both lists, return true otherwise false
+// assumes lists are sorted in ascending order and elements are unique
+bool connComponent(const std::list<int> &L1, const std::list<int> &L2)
+{
+	// int L1size = L1.size(), L2size = L2.size();
+	std::list<int>::const_iterator L1iter = L1.begin(), L2iter = L2.begin();
+	while ((L1iter != L1.end()) && (L2iter != L2.end()))
+	{
+		// Common element
+		if (*L1iter == *L2iter)
+		{
+			return true;
+		}
+		// If l1 element is greater than l2 element, we move onto next l2 element
+		else if (*L1iter > *L2iter)
+		{
+			++L2iter;
+		}
+		// If l2 element is greater than l1 element, we move onto next l1 element
+		else
+		{
+			++L1iter;
+		}
+	}
+	// The loop is exhausted by either L1 or l2 reaching its final element without
+	// a match
+	return false;
+}
+
+bool merge2(std::list<int> &L1, std::list<int> &L2)
+{
+	if (connComponent(L1, L2))
+	{
+		if (L1.size() > L2.size())
+		{
+			L1.merge(L2);
+			// Unique properly deletes all duplicates bc the list is sorted
+			L1.unique();
+			return true;
+		}
+		// If L2 is greater or equivalent sizes: merge L1 into L2
+		else
+		{
+			L2.merge(L1);
+			L2.unique();
+			return true;
+		}
+	}
+	return false;
+}
+
+// PURPOSE: prompt user to enter to ints corresponding to lists for potential
+// merge. Validates inputs and returns true if they are valid or false if user
+// enters -1
+bool validateListInputs(int &inputOne, int &inputTwo,
+						const std::vector<std::list<int>> &adjList)
+{
+	std::string userInputString;
+	do
+	{
+		std::cout
+			<< "Enter two list ids to potentially merge together or -1 to quit: ";
+		getline(std::cin, userInputString);
+		std::istringstream lineStream(userInputString);
+		lineStream >> inputOne;
+		if (inputOne == -1)
+		{
+			return false;
+		}
+		lineStream >> inputTwo;
+		if (inputOne > adjList.size() - 1 || inputOne < -1 ||
+			inputTwo > adjList.size() - 1 || inputTwo < 0)
+		{
+			std::cout << "ERROR: an invalid value has been entered!\n";
+		}
+	} while (inputOne > adjList.size() - 1 || inputOne < -1 ||
+			 inputTwo > adjList.size() - 1 || inputTwo < 0);
+	return true;
 }
