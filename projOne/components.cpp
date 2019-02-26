@@ -95,16 +95,14 @@ void buildAdjList(std::ifstream &inputFile,
 			// Insert converted value in position before listPosition
 			adjList[vecPosition].insert(listPosition, convertedValue);
 		}
-		if (inputFile.eof())
-		{
-			return;
-		}
 		// Create a new list to begin populating on next loop iteration
 		std::list<int> newList;
 		adjList.push_back(newList);
 		// Update position of vector
 		++vecPosition;
 	}
+	// To compensate for adding a final list that will not receive any values
+	adjList.pop_back();
 }
 
 // PURPOSE: output the contents of the adjList
