@@ -6,21 +6,24 @@ Data Structures - Project 1
 #include <fstream>
 #include <iostream>
 #include <list>
-#include <string>
+#include <sstream>
 #include <vector>
 
 // prototypes
 std::ifstream openInputFile();
 std::list<int>::iterator find_gt(std::list<int>::iterator,
 								 std::list<int>::iterator, int);
-std::vector<std::list<int>> buildAdjList(std::ifstream &);
+void buildAdjList(std::ifstream &, std::vector<std::list<int>> &);
+void printAdjList(std::vector<std::list<int>> &);
 
 int main()
 {
 	// Vector of integer lists called adjList for adjacency list
 	std::vector<std::list<int>> adjList;
-	// Initial file operations for opening and displaying
 	std::ifstream inputFile = openInputFile();
+	// Populate adjList with elements within inputFile
+	buildAdjList(inputFile, adjList);
+	printAdjList(adjList);
 	inputFile.close();
 	return 0;
 }
@@ -33,7 +36,7 @@ std::ifstream openInputFile()
 	std::string inputtedFileName;
 	do
 	{
-		std::cout << "Enter a graph filename to prcess (include "
+		std::cout << "Enter a graph filename to process (include "
 					 "extension): ";
 		getline(std::cin, inputtedFileName);
 		inputFile.open(inputtedFileName.c_str());
@@ -51,39 +54,71 @@ std::ifstream openInputFile()
 std::list<int>::iterator find_gt(std::list<int>::iterator start,
 								 std::list<int>::iterator stop, int x)
 {
-	for (start; start != stop; ++start)
+	// If the list is empty
+	if (start == stop)
+	{
+		return start;
+	}
+	while (start != stop)
 	{
 		if (*start > x)
 		{
 			return start;
 		}
+		++start;
+	}
+	// If x is greater than all elements in list, return iterator to final
+	// position in list
+	return stop;
+}
+// PURPOSE: Populates adjList with int values (stored in lists) from the
+// inputFile
+void buildAdjList(std::ifstream &inputFile,
+				  std::vector<std::list<int>> &adjList)
+{
+	// Create a list object to push onto adjList so adjList is not empty when loop
+	// begins for populating
+	std::list<int> x;
+	adjList.push_back(x);
+	int vecPosition = 0, convertedValue;
+	std::list<int>::iterator listPosition, start, stop;
+	std::string fileLine;
+	while (getline(inputFile, fileLine))
+	{
+		std::istringstream lineStream(fileLine);
+		// Reads int values from lineStream
+		while (lineStream >> convertedValue)
+		{
+			start = adjList[vecPosition].begin();
+			stop = adjList[vecPosition].end();
+			listPosition = find_gt(start, stop, convertedValue);
+			// Insert converted value in position before listPosition
+			adjList[vecPosition].insert(listPosition, convertedValue);
+		}
+		if (inputFile.eof())
+		{
+			return;
+		}
+		// Create a new list to begin populating on next loop iteration
+		std::list<int> newList;
+		adjList.push_back(newList);
+		// Update position of vector
+		++vecPosition;
 	}
 }
 
-std::vector<std::list<int>> buildAdjList(std::ifstream &inputFile)
+// PURPOSE: output the contents of the adjList
+void printAdjList(std::vector<std::list<int>> &adjList)
 {
-	std::vector<std::list<int>> adjList;
-	char value;
-	int position = 0, convertedValue;
-	while (std::cin >> value)
+	std::cout << "The adjacency list for your graph is: \n";
+	for (int i = 0; i < adjList.size(); ++i)
 	{
-		// Restart loop to receive a nonblank value
-		if (value == ' ')
+		std::cout << "list" << i << ": ";
+		for (std::list<int>::iterator begin = adjList[i].begin();
+			 begin != adjList[i].end(); ++begin)
 		{
-			continue;
+			std::cout << *begin << " ";
 		}
-		// Denotes the end of a line of integers in the file
-		else if (value == '\n')
-		{
-			++position;
-			continue;
-		}
-		else
-		{
-			convertedValue = value - '0';
-			adjList[position].push_back(convertedValue);
-		}
+		std::cout << std::endl;
 	}
-
-	return adjList;
 }
