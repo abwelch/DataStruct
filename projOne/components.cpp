@@ -1,6 +1,10 @@
 /*
 Andrew Welch <abw28@zips.uakron.edu> 2700340
 Data Structures - Project 1
+
+DESCRIPTION: generates a vector of integer lists that are populated with values
+read in from a user inputted file. User selects lists to attempt and merge.
+Successful merges result in removal of the smaller list.
 */
 
 #include <fstream>
@@ -163,8 +167,8 @@ void printAdjList(std::vector<std::list<int>> &adjList)
 	}
 }
 
-// if there is a common element in both lists, return true otherwise false
-// assumes lists are sorted in ascending order and elements are unique
+// PURPOSE: if there is a common element in both lists, return true otherwise
+// false assumes lists are sorted in ascending order and elements are unique
 bool connComponent(const std::list<int> &L1, const std::list<int> &L2)
 {
 	// int L1size = L1.size(), L2size = L2.size();
@@ -192,6 +196,8 @@ bool connComponent(const std::list<int> &L1, const std::list<int> &L2)
 	return false;
 }
 
+// PURPOSE: determines which list will be merged within the other, then deletes
+// duplicates from the merged list, and returns true if merge was sucessful.
 bool merge2(std::list<int> &L1, std::list<int> &L2)
 {
 	if (connComponent(L1, L2))
