@@ -101,8 +101,11 @@ void buildAdjList(std::ifstream &inputFile,
 		// Update position of vector
 		++vecPosition;
 	}
-	// To compensate for adding a final list that will not receive any values
-	adjList.pop_back();
+	// To compensate for adding a final list that did not receive any values
+	if (adjList[vecPosition].empty())
+	{
+		adjList.pop_back();
+	}
 }
 
 // PURPOSE: output the contents of the adjList
