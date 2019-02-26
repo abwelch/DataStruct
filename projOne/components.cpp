@@ -17,16 +17,16 @@ Successful merges result in removal of the smaller list.
 std::ifstream openInputFile();
 std::list<int>::iterator find_gt(std::list<int>::iterator,
 								 std::list<int>::iterator, int);
-void buildAdjList(std::ifstream &, std::vector<std::list<int>> &);
-void printAdjList(std::vector<std::list<int>> &);
+void buildAdjList(std::ifstream &, std::vector<std::list<int> > &);
+void printAdjList(std::vector<std::list<int> > &);
 bool connComponent(const std::list<int> &, const std::list<int> &);
 bool merge2(std::list<int> &, std::list<int> &);
-bool validateListInputs(int &, int &, const std::vector<std::list<int>> &);
+bool validateListInputs(int &, int &, const std::vector<std::list<int> > &);
 
 int main()
 {
 	// Vector of integer lists called adjList for adjacency list
-	std::vector<std::list<int>> adjList;
+	std::vector<std::list<int> > adjList;
 	std::ifstream inputFile = openInputFile();
 	// Populate adjList with elements within inputFile
 	buildAdjList(inputFile, adjList);
@@ -117,7 +117,7 @@ std::list<int>::iterator find_gt(std::list<int>::iterator start,
 // PURPOSE: Populates adjList with int values (stored in lists) from the
 // inputFile
 void buildAdjList(std::ifstream &inputFile,
-				  std::vector<std::list<int>> &adjList)
+				  std::vector<std::list<int> > &adjList)
 {
 	// Create a list object to push onto adjList so adjList is not empty when loop
 	// begins for populating
@@ -152,7 +152,7 @@ void buildAdjList(std::ifstream &inputFile,
 }
 
 // PURPOSE: output the contents of the adjList
-void printAdjList(std::vector<std::list<int>> &adjList)
+void printAdjList(std::vector<std::list<int> > &adjList)
 {
 	std::cout << "The adjacency list for your graph is: \n";
 	for (int i = 0; i < adjList.size(); ++i)
@@ -224,7 +224,7 @@ bool merge2(std::list<int> &L1, std::list<int> &L2)
 // merge. Validates inputs and returns true if they are valid or false if user
 // enters -1
 bool validateListInputs(int &inputOne, int &inputTwo,
-						const std::vector<std::list<int>> &adjList)
+						const std::vector<std::list<int> > &adjList)
 {
 	std::string userInputString;
 	do
