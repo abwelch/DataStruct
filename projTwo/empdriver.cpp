@@ -45,10 +45,3 @@ int main()
     uprintSalRange(unorderedSalMap);
     return 0;
 }
-
-/*
-for (int i = 0; i < a.size(); ++i)
-{
-a[i].print(std::cout);
-}
-*/
