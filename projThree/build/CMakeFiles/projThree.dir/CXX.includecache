@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/Drew/Desktop/Spring 2019/Spring 2019 Coding /Data Structures/DataStruct/projThree/heapsort.h
+vector
+-
+
+/Users/Drew/Desktop/Spring 2019/Spring 2019 Coding /Data Structures/DataStruct/projThree/insertsort.h
+vector
+-
+
+/Users/Drew/Desktop/Spring 2019/Spring 2019 Coding /Data Structures/DataStruct/projThree/mergesort.h
+vector
+-
+
+/Users/Drew/Desktop/Spring 2019/Spring 2019 Coding /Data Structures/DataStruct/projThree/quicksort.h
+vector
+-
+
+/Users/Drew/Desktop/Spring 2019/Spring 2019 Coding /Data Structures/DataStruct/projThree/sorting.cpp
+iostream
+-
+fstream
+-
+insertsort.h
+/Users/Drew/Desktop/Spring 2019/Spring 2019 Coding /Data Structures/DataStruct/projThree/insertsort.h
+heapsort.h
+/Users/Drew/Desktop/Spring 2019/Spring 2019 Coding /Data Structures/DataStruct/projThree/heapsort.h
+mergesort.h
+/Users/Drew/Desktop/Spring 2019/Spring 2019 Coding /Data Structures/DataStruct/projThree/mergesort.h
+quicksort.h
+/Users/Drew/Desktop/Spring 2019/Spring 2019 Coding /Data Structures/DataStruct/projThree/quicksort.h
+
