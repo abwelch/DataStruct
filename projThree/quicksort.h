@@ -1,4 +1,11 @@
-#pragma once
+// Andrew Welch
+
+// Quick sort with modification to no longer resort to insertion sort
+// when elements < 10
+
+#ifndef QUICKSORT_H
+#define QUICKSORT_H
+
 #include <vector>
 #include "insertsort.h"
 /*
@@ -32,7 +39,8 @@ const Comparable &median3(std::vector<Comparable> &a, int left, int right)
 template <typename Comparable>
 void quicksort(std::vector<Comparable> &a, int left, int right)
 {
-    if (left + 10 <= right)
+    // Altered to work for cases less than 10
+    if (left + 2 <= right)
     {
         const Comparable &pivot = median3(a, left, right);
 
@@ -59,7 +67,10 @@ void quicksort(std::vector<Comparable> &a, int left, int right)
     }
     else
     {
-        const Comparable &pivot = median3(a, left, right);
+        if (a[left] > a[right])
+        {
+            std::swap(a[left], a[right]);
+        }
     }
 }
 /*
@@ -70,3 +81,5 @@ void quicksort(std::vector<Comparable> &a)
 {
     quicksort(a, 0, a.size() - 1);
 }
+
+#endif

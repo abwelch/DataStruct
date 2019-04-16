@@ -1,4 +1,5 @@
-#pragma once
+#ifndef HEAPSORT_H
+#define HEAPSORT_H
 
 #include <vector>
 
@@ -50,3 +51,5 @@ void heapsort(std::vector<Comparable> &a)
         percDown(a, 0, j);
     }
 }
+
+#endif

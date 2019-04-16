@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MERGESORT_H
+#define MERGESORT_H
 
 #include <vector>
 
@@ -65,3 +66,5 @@ void mergeSort(std::vector<Comparable> &a)
 
     mergeSort(a, tmpArray, 0, a.size() - 1);
 }
+
+#endif

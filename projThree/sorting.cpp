@@ -6,7 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
-
+#include <cstdlib>
 #include "insertsort.h"
 #include "heapsort.h"
 #include "mergesort.h"
@@ -28,6 +28,7 @@ int main()
 	std::cin >> elementsToSort;
 	populateVector(unsorted, inputFile, elementsToSort);
 	sorted = unsorted;
+	std::cout << std::endl;
 
 	// HEAP sort block
 	std::cout << "Vector contents before heap sort: ";
@@ -35,6 +36,7 @@ int main()
 	heapsort(sorted);
 	std::cout << "Vector contents after heap sort: ";
 	printVector(sorted);
+	std::cout << std::endl;
 
 	// MERGE sort block
 	// reset sorted vector for new sort
@@ -44,6 +46,7 @@ int main()
 	mergeSort(sorted);
 	std::cout << "Vector contents after merge sort: ";
 	printVector(sorted);
+	std::cout << std::endl;
 
 	// QUICK sort block
 	// reset sorted vector for new sort
@@ -53,6 +56,7 @@ int main()
 	quicksort(sorted);
 	std::cout << "Vector contents after quick sort (no cutoff): ";
 	printVector(sorted);
+	std::cout << std::endl;
 
 	// INSERT sort block
 	// reset sorted vector for new sort
@@ -62,57 +66,103 @@ int main()
 	insertionSort(sorted);
 	std::cout << "Vector contents after insertion sort (no cutoff): ";
 	printVector(sorted);
+	std::cout << std::endl;
+
+	// Create large vectors for analyzing runtimes
+	std::vector<int> ascending, descending, random, ascStandard, descStandard, ranStandard;
+	for (int i = 0; i < elementsToSort; ++i)
+	{
+		ascStandard.push_back(i);
+	}
+	for (int i = elementsToSort; i > 0; --i)
+	{
+		descStandard.push_back(i);
+	}
+	for (int i = 0; i < elementsToSort; ++i)
+	{
+		// Generate a random between 1 and 1000
+		int r = std::rand() % 1000 + 1;
+		ranStandard.push_back(r);
+	}
+
+	ascending = ascStandard;
+	descending = descStandard;
+	random = ranStandard;
 
 	// Analyze runtimes
 	clock_t start, stop;
-	std::cout << "runtime of algorithms for N = 10,000 items: \n";
+	std::cout << "runtime of algorithms for N = " << elementsToSort << " items: \n\n";
 
 	// HEAP sort block
-	std::cout << "Vector contents before heap sort: ";
-	printVector(sorted);
 	start = clock();
-	heapsort(sorted);
+	heapsort(random);
 	stop = clock();
-	std::cout << "runtime: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
-	std::cout << "Vector contents after heap sort: ";
-	printVector(sorted);
+	std::cout << "Heap sort random: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
+	start = clock();
+	heapsort(ascending);
+	stop = clock();
+	std::cout << "Heap sort ascending: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
+	start = clock();
+	heapsort(descending);
+	stop = clock();
+	std::cout << "Heap sort descending: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
+	std::cout << std::endl;
+	// Reset sorted vectors to intial values
+	ascending = ascStandard;
+	descending = descStandard;
+	random = ranStandard;
 
 	// MERGE sort block
-	// reset sorted vector for new sort
-	sorted = unsorted;
-	std::cout << "Vector contents before merge sort: ";
-	printVector(sorted);
 	start = clock();
-	mergeSort(sorted);
+	mergeSort(random);
 	stop = clock();
-	std::cout << "runtime: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
-	std::cout << "Vector contents after merge sort: ";
-	printVector(sorted);
+	std::cout << "Merge sort random: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
+	start = clock();
+	mergeSort(ascending);
+	stop = clock();
+	std::cout << "Merge sort ascending: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
+	start = clock();
+	mergeSort(descending);
+	stop = clock();
+	std::cout << "Merge sort descending: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
+	std::cout << std::endl;
+	// Reset sorted vectors to intial values
+	ascending = ascStandard;
+	descending = descStandard;
+	random = ranStandard;
 
 	// QUICK sort block
-	// reset sorted vector for new sort
-	sorted = unsorted;
-	std::cout << "Vector contents before quick sort (no cutoff): ";
-	printVector(sorted);
 	start = clock();
-	quicksort(sorted);
+	quicksort(random);
 	stop = clock();
-	std::cout << "runtime: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
-	std::cout << "Vector contents after quick sort (no cutoff): ";
-	printVector(sorted);
+	std::cout << "Quick sort random: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
+	start = clock();
+	quicksort(ascending);
+	stop = clock();
+	std::cout << "Quick sort ascending: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
+	start = clock();
+	quicksort(descending);
+	stop = clock();
+	std::cout << "Quick sort descending: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
+	std::cout << std::endl;
+	// Reset sorted vectors to intial values
+	ascending = ascStandard;
+	descending = descStandard;
+	random = ranStandard;
 
 	// INSERT sort block
-	// reset sorted vector for new sort
-	sorted = unsorted;
-	std::cout << "Vector contents before insertion sort (no cutoff): ";
-	printVector(sorted);
 	start = clock();
-	insertionSort(sorted);
+	insertionSort(random);
 	stop = clock();
-	std::cout << "runtime: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
-	;
-	std::cout << "Vector contents after insertion sort (no cutoff): ";
-	printVector(sorted);
+	std::cout << "Insertion sort random: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
+	start = clock();
+	insertionSort(ascending);
+	stop = clock();
+	std::cout << "Insertion sort ascending: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
+	start = clock();
+	insertionSort(descending);
+	stop = clock();
+	std::cout << "Insertion sort descending: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
 
 	return 0;
 }

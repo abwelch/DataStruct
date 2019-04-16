@@ -1,4 +1,5 @@
-#pragma once
+#ifndef INSERTSORT_H
+#define INSERTSORT_H
 
 #include <vector>
 /**
@@ -17,3 +18,5 @@ void insertionSort(std::vector<Comparable> &a)
         a[j] = std::move(tmp);
     }
 }
+
+#endif
