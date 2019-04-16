@@ -1,16 +1,6 @@
 #pragma once
 
 #include <vector>
-/*
- * Mergesort algorithm (driver).
- */
-template <typename Comparable>
-void mergeSort(std::vector<Comparable> &a)
-{
-    std::vector<Comparable> tmpArray(a.size());
-
-    mergeSort(a, tmpArray, 0, a.size() - 1);
-}
 
 /*
  * Internal method that makes recursive calls.
@@ -64,4 +54,14 @@ void merge(std::vector<Comparable> &a, std::vector<Comparable> &tmpArray,
     // Copy tmpArray back
     for (int i = 0; i < numElements; ++i, --rightEnd)
         a[rightEnd] = std::move(tmpArray[rightEnd]);
+}
+/*
+ * Mergesort algorithm (driver).
+ */
+template <typename Comparable>
+void mergeSort(std::vector<Comparable> &a)
+{
+    std::vector<Comparable> tmpArray(a.size());
+
+    mergeSort(a, tmpArray, 0, a.size() - 1);
 }

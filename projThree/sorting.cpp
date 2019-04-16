@@ -19,7 +19,6 @@ void printVector(const std::vector<int> &);
 
 int main()
 {
-	clock_t start, stop;
 	std::ifstream inputFile = openInputFile();
 	// sorted will always be passed to algorithms then "reset" for new algorithms
 	// by reassigning the contents of unsorted
@@ -29,8 +28,42 @@ int main()
 	std::cin >> elementsToSort;
 	populateVector(unsorted, inputFile);
 	sorted = unsorted;
-	std::cout << "Contents before heap sort: ";
-	printVector(unsorted);
+
+	// HEAP sort block
+	std::cout << "Vector contents before heap sort: ";
+	printVector(sorted);
+	heapsort(sorted);
+	std::cout << "Vector contents after heap sort: ";
+	printVector(sorted);
+
+	// MERGE sort block
+	// reset sorted vector for new sort
+	sorted = unsorted;
+	std::cout << "Vector contents before merge sort: ";
+	printVector(sorted);
+	mergeSort(sorted);
+	std::cout << "Vector contents after merge sort: ";
+	printVector(sorted);
+
+	// QUICK sort block
+	// reset sorted vector for new sort
+	sorted = unsorted;
+	std::cout << "Vector contents before quick sort (no cutoff): ";
+	printVector(sorted);
+	quicksort(sorted);
+	std::cout << "Vector contents after quick sort (no cutoff): ";
+	printVector(sorted);
+
+	// INSERT sort block
+	// reset sorted vector for new sort
+	sorted = unsorted;
+	std::cout << "Vector contents before insertion sort (no cutoff): ";
+	printVector(sorted);
+	insertionSort(sorted);
+	std::cout << "Vector contents after insertion sort (no cutoff): ";
+	printVector(sorted);
+
+	clock_t start, stop;
 
 	return 0;
 }

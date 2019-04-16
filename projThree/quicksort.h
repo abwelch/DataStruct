@@ -1,13 +1,5 @@
 #pragma once
 #include <vector>
-/*
- * Quicksort algorithm (driver).
- */
-template <typename Comparable>
-void quicksort(std::vector<Comparable> &a)
-{
-    quicksort(a, 0, a.size() - 1);
-}
 
 /*
  * Return median of left, center, and right.
@@ -67,4 +59,12 @@ void quicksort(std::vector<Comparable> &a, int left, int right)
     }
     else // Do an insertion sort on the subarray
         insertionSort(a, left, right);
+}
+/*
+ * Quicksort algorithm (driver).
+ */
+template <typename Comparable>
+void quicksort(std::vector<Comparable> &a)
+{
+    quicksort(a, 0, a.size() - 1);
 }
