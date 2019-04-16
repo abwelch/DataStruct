@@ -14,7 +14,7 @@
 
 // prototypes
 std::ifstream openInputFile();
-void populateVector(std::vector<int> &, std::ifstream &);
+void populateVector(std::vector<int> &, std::ifstream &, int);
 void printVector(const std::vector<int> &);
 
 int main()
@@ -26,7 +26,7 @@ int main()
 	int elementsToSort = 0;
 	std::cout << "Input the number of elements you wish to sort: ";
 	std::cin >> elementsToSort;
-	populateVector(unsorted, inputFile);
+	populateVector(unsorted, inputFile, elementsToSort);
 	sorted = unsorted;
 
 	// HEAP sort block
@@ -63,7 +63,56 @@ int main()
 	std::cout << "Vector contents after insertion sort (no cutoff): ";
 	printVector(sorted);
 
+	// Analyze runtimes
 	clock_t start, stop;
+	std::cout << "runtime of algorithms for N = 10,000 items: \n";
+
+	// HEAP sort block
+	std::cout << "Vector contents before heap sort: ";
+	printVector(sorted);
+	start = clock();
+	heapsort(sorted);
+	stop = clock();
+	std::cout << "runtime: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
+	std::cout << "Vector contents after heap sort: ";
+	printVector(sorted);
+
+	// MERGE sort block
+	// reset sorted vector for new sort
+	sorted = unsorted;
+	std::cout << "Vector contents before merge sort: ";
+	printVector(sorted);
+	start = clock();
+	mergeSort(sorted);
+	stop = clock();
+	std::cout << "runtime: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
+	std::cout << "Vector contents after merge sort: ";
+	printVector(sorted);
+
+	// QUICK sort block
+	// reset sorted vector for new sort
+	sorted = unsorted;
+	std::cout << "Vector contents before quick sort (no cutoff): ";
+	printVector(sorted);
+	start = clock();
+	quicksort(sorted);
+	stop = clock();
+	std::cout << "runtime: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
+	std::cout << "Vector contents after quick sort (no cutoff): ";
+	printVector(sorted);
+
+	// INSERT sort block
+	// reset sorted vector for new sort
+	sorted = unsorted;
+	std::cout << "Vector contents before insertion sort (no cutoff): ";
+	printVector(sorted);
+	start = clock();
+	insertionSort(sorted);
+	stop = clock();
+	std::cout << "runtime: " << double(stop - start) / double(CLOCKS_PER_SEC) << std::endl;
+	;
+	std::cout << "Vector contents after insertion sort (no cutoff): ";
+	printVector(sorted);
 
 	return 0;
 }
@@ -90,11 +139,17 @@ std::ifstream openInputFile()
 }
 
 // PURPOSE: takes the opened input file stream and empty vector and populates the vector
-void populateVector(std::vector<int> &unsorted, std::ifstream &inputFile)
+void populateVector(std::vector<int> &unsorted, std::ifstream &inputFile, int maxElements)
 {
-	int nextElement = 0;
+	int nextElement = 0, counter = 0;
 	while (inputFile >> nextElement)
+	{
+		// Only populate amount of elements specified by user
+		if (counter == maxElements)
+			return;
 		unsorted.push_back(nextElement);
+		++counter;
+	}
 }
 
 // PURPOSE: print the contents of the vector

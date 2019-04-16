@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-
+#include "insertsort.h"
 /*
  * Return median of left, center, and right.
  * Order these and hide the pivot.
@@ -57,8 +57,10 @@ void quicksort(std::vector<Comparable> &a, int left, int right)
         quicksort(a, left, i - 1);  // Sort small elements
         quicksort(a, i + 1, right); // Sort large elements
     }
-    else // Do an insertion sort on the subarray
-        insertionSort(a, left, right);
+    else
+    {
+        const Comparable &pivot = median3(a, left, right);
+    }
 }
 /*
  * Quicksort algorithm (driver).
