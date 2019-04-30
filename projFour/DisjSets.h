@@ -14,7 +14,8 @@ DESCRIPTION: Specifies the functions and members for the DisjSets class
 
 #include <vector>
 
-class DisjSets {
+class DisjSets
+{
 public:
   explicit DisjSets(int numElements);
   // int find( int x ) const;

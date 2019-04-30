@@ -9,7 +9,8 @@ objects.
 #ifndef MAZECELL_H_INCLUDED
 #define MAZECELL_H_INCLUDED
 
-class mazeCell {
+class mazeCell
+{
 public:
   // no param constructor
   explicit mazeCell() : left(true), right(true), top(true), bot(true){};

@@ -11,7 +11,8 @@ DESCRIPTION: Specifies the functions and members of the maze class.
 #ifndef MAZE_H_INCLUDED
 #define MAZE_H_INCLUDED
 
-class maze {
+class maze
+{
 
 public:
   maze(int r, int c); // constructor

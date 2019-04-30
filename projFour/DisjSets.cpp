@@ -20,10 +20,12 @@ DisjSets::DisjSets(int numElements) : s(numElements, -1) {}
  * root2 is the root of set 2.
  * Be careful, this could cause a problem.
  */
-void DisjSets::unionSets(int root1, int root2) {
+void DisjSets::unionSets(int root1, int root2)
+{
   if (s[root2] < s[root1]) // root2 is deeper
     s[root1] = root2;      // Make root2 new root
-  else {
+  else
+  {
     if (s[root1] == s[root2])
       --s[root1];     // Update height if same
     s[root2] = root1; // Make root1 new root
@@ -40,21 +42,23 @@ void DisjSets::unionSets(int root1, int root2) {
  * That is, you will need to return the root;
  * be careful!
  */
-int DisjSets::find(int x) {
-  if (s[x] < 0) {
+int DisjSets::find(int x)
+{
+  if (s[x] < 0)
+  {
     return x;
-  } else {
-    return s[x] = find(s[x]);
+  }
+  else
+  {
+    int parent = s[x], grandParent = s[parent];
+    if (grandParent < 0)
+      return parent;
+    else
+      return s[x] = find(grandParent);
   }
 }
 
 /* TO DO: Write this code.
  * Return true if the two nieghbors are in the same set.
  */
-bool DisjSets::isConnected(int n1, int n2) {
-  if (find(n1) == find(n2)) {
-    return true;
-  } else {
-    return false;
-  }
-}
+bool DisjSets::isConnected(int n1, int n2) { return (find(n1) == find(n2)); }
